@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+*.manifest
+*.spec
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+*.mo
+*.db
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static/
+.env
+.env.local
+.env.*.local
+
+# VS Code / PyCharm
+.vscode/
+.idea/
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# Ignore all migration files, but keep __init__.py
+**/migrations/*.py
+!**/migrations/__init__.py
+
+
+# Cache
+*.cache
+*.coverage
+.coverage.*
+.cache/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+htmlcov/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+migrations
+
+# MyPy / Pyright / Pylint
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+pylint-report.txt
+
+media
+media/*
