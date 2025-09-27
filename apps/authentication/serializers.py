@@ -1,3 +1,5 @@
+# apps/authentication/serializers.py
+
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -11,16 +13,35 @@ class TeacherRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Teacher
-        fields = ('email', 'username', 'first_name', 'last_name', 'institution',
+        # Remove 'username' from the fields the client needs to provide
+        fields = ('email', 'first_name', 'last_name', 'institution',
                   'password', 'password_confirm')
+        extra_kwargs = {
+            'first_name': {'required': True},
+            'last_name': {'required': True},
+        }
 
     def validate(self, attrs):
+        # Check if passwords match
         if attrs['password'] != attrs['password_confirm']:
-            raise serializers.ValidationError("Passwords don't match")
+            raise serializers.ValidationError(
+                {"password": "Passwords do not match."})
+
+        # Check if email already exists
+        if Teacher.objects.filter(email=attrs['email']).exists():
+            raise serializers.ValidationError(
+                {"email": "A user with that email already exists."})
+
         return attrs
 
     def create(self, validated_data):
+        # Remove the confirmation password from the data
         validated_data.pop('password_confirm')
+
+        # Automatically set the username to be the same as the email
+        validated_data['username'] = validated_data['email']
+
+        # Create the new teacher user
         teacher = Teacher.objects.create_user(**validated_data)
         return teacher
 
